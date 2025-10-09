@@ -1,0 +1,38 @@
+name: Build Kernel
+
+on:
+  push:
+    branches:
+      - Pie-9-release-POBS
+  pull_request:
+    branches:
+      - Pie-9-release-POBS
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Checkout build scripts
+      uses: actions/checkout@v4
+      with:
+        repository: 100Daisy/kernel-build-script
+        ref: fiji
+        path: build
+
+    - name: Set execution permission for build script
+      run: |
+        chmod +x ./build/build.sh
+
+    - name: Build Fiji Kernel (ARM)
+      run: |
+        ./build/build.sh -s -g
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Kernel
+        path: out/arch/arm/boot
