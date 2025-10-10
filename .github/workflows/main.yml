@@ -30,6 +30,7 @@ jobs:
     - name: Build Fiji Kernel (ARM)
       run: |
         ./build/build.sh -s -g
+        find out -type f -name "*.ko" -exec mv {} out/arch/arm/boot
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
