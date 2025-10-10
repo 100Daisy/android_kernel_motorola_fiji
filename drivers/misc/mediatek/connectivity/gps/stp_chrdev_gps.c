@@ -364,7 +364,7 @@ long GPS_fwctl(struct gps_fwctl_data *user_ptr)
 		return -EFAULT;
 	}
 
-	if (copy_from_user(&tx_buf[0], (PUINT8)ctl_data.p_tx_buf, ctl_data.tx_len)) {
+	if (copy_from_user(&tx_buf[0], (PUINT8)(uintptr_t)ctl_data.p_tx_buf, ctl_data.tx_len)) {
 		pr_err("GPS_fwctl: copy_from_user error - tx_buf");
 		return -EFAULT;
 	}
@@ -394,12 +394,12 @@ long GPS_fwctl(struct gps_fwctl_data *user_ptr)
 		else
 			rx_to_user_len = rx_len;
 
-		if (copy_to_user((PUINT8)ctl_data.p_rx_buf, &rx_buf[0], rx_to_user_len)) {
+		if (copy_to_user((PUINT8)(uintptr_t)ctl_data.p_rx_buf, &rx_buf[0], rx_to_user_len)) {
 			pr_err("GPS_fwctl: copy_to_user error - rx_buf");
 			retval = -EFAULT;
 		}
 
-		if (copy_to_user((PUINT32)ctl_data.p_rx_len, &rx_len, sizeof(UINT32))) {
+		if (copy_to_user((PUINT32)(uintptr_t)ctl_data.p_rx_len, &rx_len, sizeof(UINT32))) {
 			pr_err("GPS_fwctl: copy_to_user error - rx_len");
 			retval = -EFAULT;
 		}
