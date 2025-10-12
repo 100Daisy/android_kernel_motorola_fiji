@@ -37,3 +37,32 @@ jobs:
       with:
         name: Kernel
         path: out/arch/arm/boot
+        
+  build2:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+
+    - name: Checkout build scripts
+      uses: actions/checkout@v4
+      with:
+        repository: 100Daisy/kernel-build-script
+        ref: fiji64
+        path: build
+
+    - name: Set execution permission for build script
+      run: |
+        chmod +x ./build/build.sh
+
+    - name: Build Fiji Kernel (ARM)
+      run: |
+        ./build/build.sh -s -g
+        find out -type f -name "*.ko" -exec mv {} out/arch/arm/boot \;
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Kernel
+        path: out/arch/arm64/boot
+        
