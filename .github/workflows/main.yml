@@ -25,6 +25,7 @@ jobs:
 
     - name: Set execution permission for build script
       run: |
+        sudo apt install python2
         chmod +x ./build/build.sh
 
     - name: Build Fiji Kernel (ARM)
