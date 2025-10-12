@@ -38,8 +38,8 @@ jobs:
         name: Kernel
         path: out/arch/arm/boot
         
-  build2:
-    runs-on: ubuntu-latest
+  build-arm64:
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v5
@@ -55,10 +55,10 @@ jobs:
       run: |
         chmod +x ./build/build.sh
 
-    - name: Build Fiji Kernel (ARM)
+    - name: Build Fiji Kernel (ARM64)
       run: |
         ./build/build.sh -s -g
-        find out -type f -name "*.ko" -exec mv {} out/arch/arm/boot \;
+        find out -type f -name "*.ko" -exec mv {} out/arch/arm64/boot \;
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
